@@ -7,17 +7,19 @@ from Recorder import record_audio
 # define the model and input paths
 model_path = "data/DeepSpeech/models/output_graph.pb"
 alphabet_path = "data/DeepSpeech/models/alphabet.txt"
-audio_path = "data/DeepSpeech/audio/4507-16021-0012.wav"
+lm_path = "data/DeepSpeech/models/lm.binary"
+trie_path = "data/DeepSpeech/models/trie"
 
-audio_filename = "data/DeepSpeech/audio/test.wav"
+audio_path = "data/DeepSpeech/audio/test.wav"
 
 # load
-record_audio(audio_filename)
+# record_audio(audio_filename)
 
 # load the model
 ds = Model(model_path, 26, 9, alphabet_path, 500)
+ds.enableDecoderWithLM(alphabet_path, lm_path, trie_path, 1, 0)
 
 # process and display the input stream
-fs, audio = wav.read(audio_filename)
+fs, audio = wav.read(audio_path)
 processed_data = ds.stt(audio, fs)
 print(processed_data)
