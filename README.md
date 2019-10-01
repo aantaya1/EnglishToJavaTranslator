@@ -11,4 +11,7 @@ This technology would enable developers to decrease dependence on their physical
 ##Instructions
 
 To download the model install lfs and set it up with `git lfs install` in the repo directory.
-Then you need to fetch the lfs file by using `git lfs fetch --all`.
+
+Make sure you install git lfs before you pull the first time.
+
+After that, you can easily use git pull to download the data.
