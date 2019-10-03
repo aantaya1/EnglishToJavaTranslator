@@ -8,10 +8,22 @@ There are many tools for translating a human language to a human language such a
 
 This technology would enable developers to decrease dependence on their physical ability while focusing more on developing software. A 2006 study claimed that “higher risk for CTS was found with higher exposure to computer work” (Ali & Sathiyasekaran, 2006). Our project could have a meaningful impact on the long-term safety of professional developers. Furthermore, this technology could serve as the backbone to future developments in automated programming assistants, where one day we could be asking our personal programming assistant to “Develop a program to handle customer tracking, should use Java and ASP.NET. Program should also manage inventory and billing. Please have it done by the day after tomorrow”.
 
-##Instructions
+## Instructions
 
-To download the model install lfs and set it up with `git lfs install` in the repo directory.
+### Install PyAudio for Windows 10
 
-Make sure you install git lfs before you pull the first time.
+You need to download pipwin at first:
+```
+pip install pipwin
+```
+And then install pyaudio with pipwin:
+```
+pipwin install pyaudio
+```
 
-After that, you can easily use git pull to download the data.
+### Get DeepSpeech running
+
+1. Clone the repo
+2. Download the models folder from OneDrive and move it into the DeepSpeech folder
+3. - With audio_path you can select the path to an existing .wav file
+   - With the method record_audio() you can record and process a sound with your onboard microphone

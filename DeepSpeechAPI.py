@@ -12,8 +12,9 @@ trie_path = "data/DeepSpeech/models/trie"
 
 audio_path = "data/DeepSpeech/audio/test.wav"
 
-# load
-# record_audio(audio_filename)
+# record audio with the onboard microphone
+# audio_path = "data/DeepSpeech/audio/record.wav"
+# record_audio(audio_path)
 
 # load the model
 ds = Model(model_path, 26, 9, alphabet_path, 500)
