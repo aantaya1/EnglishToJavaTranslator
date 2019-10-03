@@ -107,4 +107,4 @@ venv.bak/
 .mypy_cache/
 
 # custom fold
-DeepSpeech/models/
+models/
