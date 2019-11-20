@@ -49,8 +49,6 @@ public class JavaSoundRecorder {
             line.open(format);
             line.start();   // start capturing
 
-            System.out.println("Start capturing...");
-
             AudioInputStream ais = new AudioInputStream(line);
 
             System.out.println("Start recording...");

@@ -10,12 +10,8 @@ import java.io.IOException;
 public class MyToolWindowFactory implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        MyToolWindow myToolWindow = null;
-        try {
-            myToolWindow = new MyToolWindow(toolWindow);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        MyToolWindow myToolWindow;
+        myToolWindow = new MyToolWindow(toolWindow);
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(myToolWindow.getContent(), "", false);
         toolWindow.getContentManager().addContent(content);

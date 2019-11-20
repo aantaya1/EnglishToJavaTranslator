@@ -8,18 +8,15 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.wm.ToolWindow;
 import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
-import java.io.IOException;
 
 public class MyToolWindow {
     private JButton hideToolWindowButton;
     private JPanel myToolWindowContent;
     private JButton recordButton;
-    private JLabel output;
     private JLabel javaOutput;
 
-    public MyToolWindow(ToolWindow toolWindow) throws IOException {
+    public MyToolWindow(ToolWindow toolWindow) {
         hideToolWindowButton.addActionListener(e -> toolWindow.hide(null));
         recordButton.addActionListener(e -> processRecording());
     }
@@ -33,12 +30,17 @@ public class MyToolWindow {
         jsr.startRecoding();
         SpeechToText stt = new SpeechToText();
         String textOutput = stt.getMockText();
-        output.setText(textOutput);
-        getJavaCode(textOutput);
+        String java = getJavaCode(textOutput);
+        insertJava(java);
     }
 
-    public void getJavaCode(String input) {
+    public String getJavaCode(String input) {
         String java = "//This should be the java output for: \n" + input;
+        //todo use trained lstm model
+        return java;
+    }
+
+    public void insertJava(String java){
         javaOutput.setText(java);
         Project project = ProjectManager.getInstance().getOpenProjects()[0];
         FileEditorManager manager = FileEditorManager.getInstance(project);
