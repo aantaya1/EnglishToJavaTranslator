@@ -6,6 +6,7 @@ import com.google.cloud.speech.v1.SpeechClient;
 import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
 import com.google.cloud.speech.v1.SpeechRecognitionResult;
 import com.google.protobuf.ByteString;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,7 +37,7 @@ public class SpeechToText {
         return "no text recognized";
     }
 
-    public String getMockText(){
-        return "this is a mock text";
+    public String getMockText() {
+        return "public static void main(String[] args) {System.out.println(\"Hello World!\");}";
     }
 }

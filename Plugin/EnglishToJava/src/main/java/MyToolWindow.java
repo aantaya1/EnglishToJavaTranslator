@@ -1,5 +1,4 @@
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
@@ -29,7 +28,7 @@ public class MyToolWindow {
         return myToolWindowContent;
     }
 
-    public void processRecording(){
+    public void processRecording() {
         JavaSoundRecorder jsr = new JavaSoundRecorder();
         jsr.startRecoding();
         SpeechToText stt = new SpeechToText();
@@ -38,8 +37,8 @@ public class MyToolWindow {
         getJavaCode(textOutput);
     }
 
-    public void getJavaCode(String input){
-        String java = "This should be the java output for: " + input;
+    public void getJavaCode(String input) {
+        String java = "//This should be the java output for: \n" + input;
         javaOutput.setText(java);
         Project project = ProjectManager.getInstance().getOpenProjects()[0];
         FileEditorManager manager = FileEditorManager.getInstance(project);
@@ -48,11 +47,12 @@ public class MyToolWindow {
         final int cursorOffset = editor.getCaretModel().getOffset();
         final Document document = editor.getDocument();
 
-        new WriteCommandAction(project){
+        new WriteCommandAction(project) {
             @Override
             protected void run(@NotNull Result result) throws Throwable {
                 document.insertString(cursorOffset, java);
             }
         }.execute();
+        new ReformatCodeProcessor(project, false).run();
     }
 }
