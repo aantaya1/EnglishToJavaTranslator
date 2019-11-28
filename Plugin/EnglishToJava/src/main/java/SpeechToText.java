@@ -37,6 +37,6 @@ public class SpeechToText {
     }
 
     public String getMockText() {
-        return "public static void main(String[] args) {System.out.println(\"Hello World!\");}";
+        return "Create main method on line 2";
     }
 }
