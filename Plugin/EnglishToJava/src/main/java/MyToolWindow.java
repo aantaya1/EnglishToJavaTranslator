@@ -19,6 +19,7 @@ import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class MyToolWindow {
         recordButton.addActionListener(e -> {
             try {
                 processRecording();
-            } catch (IOException | ParseException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
@@ -45,11 +46,11 @@ public class MyToolWindow {
         return myToolWindowContent;
     }
 
-    public void processRecording() throws IOException, ParseException {
+    public void processRecording() throws Exception {
         JavaSoundRecorder jsr = new JavaSoundRecorder();
         jsr.startRecoding();
         SpeechToText stt = new SpeechToText();
-        String textOutput = stt.getMockText();
+        String textOutput = stt.getText("/Users/rene/Workspace/WPI/Artificial Intelligence/EnglishToJavaTranslator/Plugin/EnglishToJava/src/main/resources/CreateMainMethod.wav");
         String java = getJavaCode(textOutput);
         insertJava(java);
     }
@@ -69,7 +70,7 @@ public class MyToolWindow {
         return java;
     }
 
-    public void insertJava(String java){
+    public void insertJava(String java) {
         javaOutput.setText(java);
         Project project = ProjectManager.getInstance().getOpenProjects()[0];
         FileEditorManager manager = FileEditorManager.getInstance(project);

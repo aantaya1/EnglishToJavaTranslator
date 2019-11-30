@@ -19,7 +19,6 @@ public class SpeechToText {
             ByteString audioBytes = ByteString.copyFrom(data);
             RecognitionConfig config = RecognitionConfig.newBuilder()
                     .setEncoding(AudioEncoding.LINEAR16)
-                    .setSampleRateHertz(16000)
                     .setLanguageCode("en-US")
                     .build();
             RecognitionAudio audio = RecognitionAudio.newBuilder()
