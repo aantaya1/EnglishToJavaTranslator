@@ -30,11 +30,13 @@ public class MyToolWindow {
     private JPanel myToolWindowContent;
     private JButton recordButton;
     private JLabel javaOutput;
+    private int count;
 
     public MyToolWindow(ToolWindow toolWindow) {
         hideToolWindowButton.addActionListener(e -> toolWindow.hide(null));
         recordButton.addActionListener(e -> {
             try {
+                count++;
                 processRecording();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -50,7 +52,19 @@ public class MyToolWindow {
         JavaSoundRecorder jsr = new JavaSoundRecorder();
         jsr.startRecoding();
         SpeechToText stt = new SpeechToText();
-        String textOutput = stt.getText("/Users/rene/Workspace/WPI/Artificial Intelligence/EnglishToJavaTranslator/Plugin/EnglishToJava/src/main/resources/CreateMainMethod.wav");
+        String inputAudio = "";
+        switch (count){
+            case 1:
+                inputAudio = "ClassX.wav";
+                break;
+            case 2:
+                inputAudio = "Main.wav";
+                break;
+            case 3:
+                inputAudio = "OutputHelloWorld.wav";
+                break;
+        }
+        String textOutput = stt.getText("/Users/rene/Workspace/WPI/Artificial Intelligence/EnglishToJavaTranslator/Plugin/EnglishToJava/src/main/resources/" + inputAudio);
         String java = getJavaCode(textOutput);
         insertJava(java);
     }
