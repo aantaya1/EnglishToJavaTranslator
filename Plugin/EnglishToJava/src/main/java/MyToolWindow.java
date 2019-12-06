@@ -3,6 +3,8 @@ import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.LogicalPosition;
+import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
@@ -53,7 +55,7 @@ public class MyToolWindow {
         jsr.startRecoding();
         SpeechToText stt = new SpeechToText();
         String inputAudio = "";
-        switch (count){
+        switch (count) {
             case 1:
                 inputAudio = "ClassX.wav";
                 break;
@@ -65,38 +67,41 @@ public class MyToolWindow {
                 break;
         }
         String textOutput = stt.getText("/Users/rene/Workspace/WPI/Artificial Intelligence/EnglishToJavaTranslator/Plugin/EnglishToJava/src/main/resources/" + inputAudio);
-        String java = getJavaCode(textOutput);
+        JavaResult java = getJavaCode(textOutput);
         insertJava(java);
     }
 
-    public String getJavaCode(String input) throws IOException, ParseException {
+    public JavaResult getJavaCode(String input) throws IOException, ParseException {
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost("http://127.0.0.1:5000/");
         List<BasicNameValuePair> params = new ArrayList<>(2);
         params.add(new BasicNameValuePair("text", input));
+        System.out.println("Sending request: " + params);
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         HttpResponse response = httpclient.execute(httppost);
         HttpEntity entity = response.getEntity();
         String responseJSON = EntityUtils.toString(entity);
         JSONObject element = (JSONObject) new JSONParser().parse(responseJSON);
+        System.out.println("Response: " + element);
         String java = (String) element.get("java");
         String line = (String) element.get("line");
-        return java;
+        return new JavaResult(java);
     }
 
-    public void insertJava(String java) {
-        javaOutput.setText(java);
+    public void insertJava(JavaResult java) {
+        javaOutput.setText(java.code);
         Project project = ProjectManager.getInstance().getOpenProjects()[0];
         FileEditorManager manager = FileEditorManager.getInstance(project);
         final Editor editor = manager.getSelectedTextEditor();
         assert editor != null;
+        //editor.getCaretModel().moveToVisualPosition(new VisualPosition(java.line, 0, true));
         final int cursorOffset = editor.getCaretModel().getOffset();
         final Document document = editor.getDocument();
 
         new WriteCommandAction(project) {
             @Override
             protected void run(@NotNull Result result) throws Throwable {
-                document.insertString(cursorOffset, java);
+                document.insertString(cursorOffset, java.code);
             }
         }.execute();
         new ReformatCodeProcessor(project, false).run();
